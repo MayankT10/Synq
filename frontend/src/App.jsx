@@ -34,14 +34,8 @@ const App = () => {
     );
 
   return (
-<<<<<<< HEAD
-    <div data-theme="retro">
-      <div>
-        <Navbar />
-=======
     <div data-theme={theme} className="min-h-screen">
       <Navbar />
->>>>>>> 424513b200e6c8a88dc6943568dd8e2d7f7dfdbd
 
         <Routes>
           <Route
@@ -64,11 +58,10 @@ const App = () => {
             path="/profile"
             element={authUser ? <ProfilePage /> : <Navigate to="/login" />}
           />
-        </Routes>
+        </Routes>``
 
         <Toaster />
       </div>
-    </div>
   );
 };
 
