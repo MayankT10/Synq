@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import daisyui from "daisyui";
 
 /** @type {import('tailwindcss').Config} */
@@ -7,10 +8,22 @@ export default {
     extend: {},
   },
   plugins: [daisyui],
+=======
+module.exports = {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,jsx}",
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [require("daisyui")],
+>>>>>>> 424513b200e6c8a88dc6943568dd8e2d7f7dfdbd
   daisyui: {
     themes: [
       "light",
       "dark",
+<<<<<<< HEAD
       "cupcake",
       "bumblebee",
       "emerald",
@@ -44,3 +57,8 @@ export default {
     ],
   },
 };
+=======
+    ],
+  },
+}
+>>>>>>> 424513b200e6c8a88dc6943568dd8e2d7f7dfdbd
