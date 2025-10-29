@@ -1,4 +1,3 @@
-
 # Synq - Real-Time Chat Application
 
 Synq is a full-stack, real-time chat web application designed for secure and user-friendly communication. This prototype features a modern tech stack with a modular architecture, including user authentication, profile management with image uploads, and a RESTful API for messaging.
@@ -13,8 +12,10 @@ Synq is a full-stack, real-time chat web application designed for secure and use
 
 ## Technology Stack
 
-- **Frontend**: React, Vite, Tailwind CSS, DaisyUI, Zustand, Axios
-- **Backend**: Node.js, Express.js, MongoDB, Mongoose, JWT, Cloudinary
+- **Frontend**: React, Vite, Tailwind CSS, DaisyUI, Zustand, Axios  
+- **Backend**: Node.js, Express.js, MongoDB, Mongoose, JWT, Cloudinary  
+
+---
 
 ## Getting Started
 
@@ -22,24 +23,20 @@ To get a local copy up and running, follow these steps.
 
 ### Prerequisites
 
-- Node.js and npm
-- A MongoDB URI
-- A Cloudinary account
+Make sure you have the following installed:
+- **Node.js** (v16 or higher)
+- **npm** or **yarn**
+- **MongoDB** (local or Atlas)
+- **Cloudinary account** (for image uploads)
 
-### Installation
+---
 
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/MayankT10/Synq.git
-
-### Backend Setup:
+## Backend Setup
 
 1. Navigate to the backend folder:
-
    ```bash
    cd backend
-   ```
+
 
 2. Install dependencies:
 
@@ -47,15 +44,40 @@ To get a local copy up and running, follow these steps.
    npm install
    ```
 
-3. Create a `.env` file with your `MONGODB_URI`, `JWT_SECRET`, and `CLOUDINARY_*` keys.
+3. Create a `.env` file inside the `backend` directory and add the following:
 
-4. Start the backend server:
+   ```env
+   MONGODB_URI=your_mongodb_connection_string
+   PORT=5001
+   JWT_SECRET=mysecretkey
+   NODE_ENV=development
+
+   CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+   CLOUDINARY_API_KEY=your_cloudinary_api_key
+   CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+   ```
+
+4. Run the backend server:
 
    ```bash
    npm start
    ```
 
-### Frontend Setup:
+   or for development with auto-restart (if nodemon is installed):
+
+   ```bash
+   npm run dev
+   ```
+
+5. The backend should now be running on:
+
+   ```
+   http://localhost:5001
+   ```
+
+---
+
+## Frontend Setup
 
 1. Navigate to the frontend folder:
 
@@ -69,11 +91,20 @@ To get a local copy up and running, follow these steps.
    npm install
    ```
 
-3. Start the frontend server:
+3. Start the frontend development server:
 
    ```bash
    npm run dev
    ```
+
+4. The app will be available at:
+
+   ```
+   http://localhost:5173
+   ```
+
+
+
 
 ## Team
 
@@ -85,3 +116,6 @@ This project was developed by:
 * Abhijith
 * Om
 * Saurav
+
+
+
