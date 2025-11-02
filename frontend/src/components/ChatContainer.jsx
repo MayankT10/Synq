@@ -4,10 +4,12 @@ import { useEffect } from "react";
 import ChatHeader from "./ChatHeader";
 import MessageInput from "./MessageInput";
 import MessageSkeleton from "./skeletons/MessageSkeleton";
+import { useAuthStore } from "../store/useAuthStore";
 
 const ChatContainer = () => {
   const { messages, getMessages, isMessagesLoading, selectedUser } =
     useChatStore();
+  const { authUser } = useAuthStore();
 
   useEffect(() => {
     getMessages(selectedUser._id);
@@ -27,6 +29,30 @@ const ChatContainer = () => {
       <ChatHeader />
 
       <p>messages...</p>
+      {messages.map((message) => (
+        <div
+          key={message._id}
+          className={`chat ${
+            message.sender._id === authUser._id ? "chat-end" : "chat-start"
+          }`}
+        >
+          <div className="chat-image avatar">
+            <div className="size-10 rounded-full border">
+              <img
+                src={
+                  message.senderId === authUser._id
+                    ? authUser.profilePic || "/avatar.png"
+                    : selectedUser.profilePic || "/avatar.png"
+                }
+                alt="profile pic"
+              />
+            </div>
+          </div>
+          <div className="chat-header mb-1">
+            <time className="text-xs opacity-50 ml-1">{message.createdAt}</time>{" "}
+          </div>
+        </div>
+      ))}
 
       <MessageInput />
     </div>
