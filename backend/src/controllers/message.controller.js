@@ -23,10 +23,10 @@ export const getMessages = async (req, res) => {
 
     const messages = await Message.find({
       $or: [
-        { myId: myId, recieverId: userToChatId },
-        { myId: userToChatId, recieverId: myId },
+        { senderId: myId, recieverId: userToChatId },
+        { senderId: userToChatId, recieverId: myId },
       ],
-    });
+    }).sort({ createdAt: 1 });
 
     res.status(200).json(messages);
   } catch (error) {

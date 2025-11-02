@@ -25,11 +25,11 @@ const Sidebar = () => {
       </div>
 
       <div>
-        {users.map((user) => (
-          <button
-            key={user.id}
-            onClick={() => setSelectedUser(user)}
-            className={`
+        {users.map((user, idx) => (
+          <div key={user._id ?? user.id ?? idx} className="your-list-item-class">
+            <button
+              onClick={() => setSelectedUser(user)}
+              className={`
                     w-full p-3 flex items-center gap-3
                     hover:bg-base-300 transition-colors cursor-pointer
                     ${
@@ -37,25 +37,26 @@ const Sidebar = () => {
                         ? "bg-base-300 ring-1 ring-base-300 "
                         : ""
                     }`}
-          >
-            <div className="relative flex-shrink-0">
-              <img
-                src={user.profilePic || "./avatar.png"}
-                alt={user.name}
-                className="w-12 h-12 object-cover rounded-full"
-              />
-              {onlineUsers.includes(user._id) && (
-                <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full ring-2 ring-zinc-900" />
-              )}
-            </div>
-
-            <div className="hidden lg:block text-left min-w-0 overflow-hidden">
-              <div className="font-medium truncate">{user.fullName} </div>
-              <div className="text-sm text-zinc-400">
-                {onlineUsers.includes(user._id) ? "Online" : "Offline"}
+            >
+              <div className="relative flex-shrink-0">
+                <img
+                  src={user.profilePic || "./avatar.png"}
+                  alt={user.name}
+                  className="w-12 h-12 object-cover rounded-full"
+                />
+                {onlineUsers.includes(user._id) && (
+                  <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full ring-2 ring-zinc-900" />
+                )}
               </div>
-            </div>
-          </button>
+
+              <div className="hidden lg:block text-left min-w-0 overflow-hidden">
+                <div className="font-medium truncate">{user.fullName} </div>
+                <div className="text-sm text-zinc-400">
+                  {onlineUsers.includes(user._id) ? "Online" : "Offline"}
+                </div>
+              </div>
+            </button>
+          </div>
         ))}
       </div>
     </aside>
