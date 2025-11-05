@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 import { v2 as cloudinary } from "cloudinary";
+import { app,server } from "./lib/socket.js";
 
 dotenv.config();
 
@@ -16,7 +17,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const app = express();
+
 const PORT = process.env.PORT;
 
 app.use(express.json({ limit: "10mb" })); 
@@ -32,7 +33,7 @@ app.use(
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log("Sever is running on PORT:" + PORT);
   connectDB();
 });
