@@ -1,42 +1,39 @@
+import "dotenv/config";
 import express from "express";
-import dotenv from "dotenv";
-import cookieParser from "cookie-parser";
+import http from "http";
 import cors from "cors";
-
-import path from "path";
-
-import { connectDB } from "./lib/db.js";
-
+import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.route.js";
 import messageRoutes from "./routes/message.route.js";
-import { app, server } from "./lib/socket.js";
+import { initSocket } from "./lib/socket.js";
 
-dotenv.config();
+const app = express();const app = express();
 
-const PORT = process.env.PORT;
-const __dirname = path.resolve();
-
-app.use(express.json());
-app.use(cookieParser());
-app.use(
+app.use(app.use(
   cors({
-    origin: "http://localhost:5173",
-    credentials: true,
+    origin: process.env.CLIENT_URL || "http://localhost:5173",    origin: process.env.CLIENT_URL || "http://localhost:5173",
+    credentials: true,entials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],ods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   })
 );
+app.use(cookieParser());
+app.use(express.json({ limit: "10mb" }));use(express.json({ limit: "10mb" }));
 
-app.use("/api/auth", authRoutes);
+app.use("/api/auth", authRoutes);hRoutes);
 app.use("/api/messages", messageRoutes);
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../frontend/dist")));
+// simple healthcheck healthcheck
+app.get("/api/health", (_req, res) => res.status(200).json({ ok: true }));) => res.status(200).json({ ok: true }));
 
-  app.get("/*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
-  });
-}
-
-server.listen(PORT, () => {
-  console.log("server is running on PORT:" + PORT);
-  connectDB();
+// error handler to avoid hard resets// error handler to avoid hard resets
+// eslint-disable-next-line no-unused-varsble-next-line no-unused-vars
+app.use((err, _req, res, _next) => {
+  console.error("Unhandled error:", err);  console.error("Unhandled error:", err);
+  res.status(500).json({ error: "Internal Server Error" });nal Server Error" });
 });
+
+const server = http.createServer(app);
+initSocket(server);tSocket(server);
+
+const PORT = process.env.PORT || 5001;
+server.listen(PORT, () => console.log(`Server http://localhost:${PORT}`)); () => console.log(`Server http://localhost:${PORT}`));

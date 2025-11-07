@@ -10,19 +10,36 @@ import SettingsPage from "./pages/SettingsPage";
 import ProfilePage from "./pages/ProfilePage";
 import { useAuthStore } from "./store/useAuthStore";
 import { useThemeStore } from "./store/useThemeStore";
+import { useChatStore } from "./store/useChatStore";
 
 import { Loader } from "lucide-react";
 import { Toaster } from "react-hot-toast";
 
-const App = () => {
+function App() {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
 
   const { theme } = useThemeStore();
   console.log("Theme type:", typeof theme, "Value:", theme);
 
+  const setOnlineUsers = useChatStore((s) => s.setOnlineUsers); // action
+  const authUser = useAuthStore((s) => s.authUser);
+  const checkAuth = useAuthStore((s) => s.checkAuth);
+
   useEffect(() => {
-    checkAuth();
+    checkAuth?.();
   }, [checkAuth]);
+
+  useEffect(() => {
+    if (!authUser?._id) {
+      try { socket.disconnect(); } catch {}
+      setOnlineUsers([]); // works now
+      return;
+    }
+    socket.auth = { userId: authUser._id };
+    socket.connect();
+    const off = onOnlineUsers(setOnlineUsers);
+    return () => off();
+  }, [authUser?._id, setOnlineUsers]);
 
   console.log({ authUser });
 
@@ -63,6 +80,6 @@ const App = () => {
         <Toaster />
       </div>
   );
-};
+}
 
 export default App;
