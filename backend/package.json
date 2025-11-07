@@ -1,32 +1,20 @@
 {
   "name": "backend",
-  "version": "1.0.0",
-  "description": "",
-  "main": "src/index.js",
+  "type": "module",
+  "private": true,
   "scripts": {
-    "dev": "nodemon src/index.js",
+    "dev": "node src/index.js",
     "start": "node src/index.js"
   },
-  "keywords": [],
-  "author": "",
-  "type": "module",
-  "license": "ISC",
   "dependencies": {
-    "bcryptjs": "^3.0.2",
-    "cloudinary": "^2.7.0",
-    "cookie-parser": "^1.4.7",
-    "cors": "^2.8.5",
-    "debug": "^4.4.3",
-    "dotenv": "^17.2.3",
     "express": "4.19.2",
+    "cors": "^2.8.5",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.4.5",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.19.1",
-    "socket.io": "^4.8.1"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.10"
-  },
-  "engines": {
-    "node": "18.x"
+    "mongoose": "^8.5.1",
+    "socket.io": "^4.7.5",
+    "cloudinary": "^1.41.0",
+    "bcryptjs": "^2.4.3"
   }
 }
