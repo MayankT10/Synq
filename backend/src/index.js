@@ -22,10 +22,8 @@ app.use(express.json({ limit: "10mb" }));
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
-// simple healthcheck
 app.get("/api/health", (_req, res) => res.status(200).json({ ok: true }));
 
-// error handler to avoid hard resets
 // eslint-disable-next-line no-unused-vars
 app.use((err, _req, res, _next) => {
   console.error("Unhandled error:", err);
