@@ -4,7 +4,6 @@ import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import { v2 as cloudinary } from "cloudinary";
 
-
 export const signup = async (req, res) => {
   const { fullName, email, password } = req.body;
   try {
@@ -113,11 +112,12 @@ export const updateProfile = async (req, res) => {
   }
 };
 
-export const checkAuth = (req, res) => {
+export const checkAuth = async (req, res) => {
   try {
+    if (!req.user) return res.status(401).json({ error: "Unauthorized" });
     res.status(200).json(req.user);
-  } catch (error) {
-    console.error("Error in checkAuth controller:", error.message);
-    res.status(500).json({ message: "Internal Server Error" });
+  } catch (e) {
+    console.error("Error in checkAuth:", e);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
