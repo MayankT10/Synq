@@ -9,19 +9,16 @@ import LoginPage from "./pages/LoginPage";
 import SettingsPage from "./pages/SettingsPage";
 import ProfilePage from "./pages/ProfilePage";
 import { useAuthStore } from "./store/useAuthStore";
-import { useThemeStore } from "./store/useThemeStore";
 import { useChatStore } from "./store/useChatStore";
+import { useThemeStore } from "./store/useThemeStore";
+import { socket, onOnlineUsers } from "./lib/socket";
 
 import { Loader } from "lucide-react";
 import { Toaster } from "react-hot-toast";
 
 function App() {
-  const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
-
-  const { theme } = useThemeStore();
-  console.log("Theme type:", typeof theme, "Value:", theme);
-
-  const setOnlineUsers = useChatStore((s) => s.setOnlineUsers); // action
+  const theme = useThemeStore((s) => s.theme);
+  const setOnlineUsers = useChatStore((s) => s.setOnlineUsers);
   const authUser = useAuthStore((s) => s.authUser);
   const checkAuth = useAuthStore((s) => s.checkAuth);
 
@@ -30,9 +27,13 @@ function App() {
   }, [checkAuth]);
 
   useEffect(() => {
+    document.documentElement.classList.toggle("dark", theme === "dark");
+  }, [theme]);
+
+  useEffect(() => {
     if (!authUser?._id) {
       try { socket.disconnect(); } catch {}
-      setOnlineUsers([]); // works now
+      setOnlineUsers([]);
       return;
     }
     socket.auth = { userId: authUser._id };
