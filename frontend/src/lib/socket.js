@@ -1,26 +1,15 @@
 import { io } from "socket.io-client";
 
-let socket = null;
+const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || "http://localhost:5001";
 
-export const connectToSocket = () => {
-  if (socket?.connected) return socket;
-  socket = io("http://localhost:5001", {
-    withCredentials: true,
-  });
-  return socket;
-};
-
-export const getSocket = () => socket;
-
-export const disconnectSocket = () => {
-  if (socket) {
-    socket.disconnect();
-    socket = null;
-  }
-};
+export const socket = io(SOCKET_URL, {
+  autoConnect: false,
+  withCredentials: true,
+  transports: ["websocket"],
+});
 
 export const onOnlineUsers = (cb) => {
   const handler = (ids) => cb(Array.isArray(ids) ? ids : []);
-  socket.on("getOnlineUsers", handler);
-  return () => socket.off("getOnlineUsers", handler);
+  socket.on("onlineUsers", handler);
+  return () => socket.off("onlineUsers", handler);
 };
