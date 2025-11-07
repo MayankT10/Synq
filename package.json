@@ -1,0 +1,21 @@
+{
+  "name": "synq",
+  "version": "1.0.0",
+  "description": "Synq is a full-stack, real-time chat web application designed for secure and user-friendly communication. This prototype features a modern tech stack with a modular architecture, including user authentication, profile management with image uploads, and a RESTful API for messaging.",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend",
+    "start": "npm run start --prefix backend"  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MayankT10/Synq.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/MayankT10/Synq/issues"
+  },
+  "homepage": "https://github.com/MayankT10/Synq#readme"
+}
