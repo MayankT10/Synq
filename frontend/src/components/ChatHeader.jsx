@@ -1,4 +1,3 @@
-import React from "react";
 import { X } from "lucide-react";
 import { useAuthStore } from "../store/useAuthStore";
 import { useChatStore } from "../store/useChatStore";
@@ -28,8 +27,7 @@ const ChatHeader = () => {
         </div>
 
         {/* Close button */}
-        <button onClick={() => setSelectedUser(null)}
-          className="cursor-pointer">
+        <button onClick={() => setSelectedUser(null)}>
           <X />
         </button>
       </div>

@@ -1,47 +1,37 @@
-import express from "express";
-import http from "http";
 import { Server } from "socket.io";
+import http from "http";
+import express from "express";
 
-export const app = express();
-export const server = http.createServer(app);
+const app = express();
+const server = http.createServer(app);
 
-let io;
-const userSocketMap = new Map();
+const io = new Server(server, {
+  cors: {
+    origin: ["http://localhost:5173"],
+  },
+});
 
-export const getReceiverSocketId = (userId) => userSocketMap.get(String(userId));
+export function getReceiverSocketId(userId) {
+  return userSocketMap[userId];
+}
 
-export const initSocket = () => {
-  io = new Server(server, {
-    cors: {
-      origin: process.env.CLIENT_URL || "http://localhost:5173",
-      credentials: true,
-      methods: ["GET", "POST", "PUT", "DELETE"],
-      allowedHeaders: ["Content-Type", "Authorization"]
-    },
-    transports: ["websocket", "polling"]
+// used to store online users
+const userSocketMap = {}; // {userId: socketId}
+
+io.on("connection", (socket) => {
+  console.log("A user connected", socket.id);
+
+  const userId = socket.handshake.query.userId;
+  if (userId) userSocketMap[userId] = socket.id;
+
+  // io.emit() is used to send events to all the connected clients
+  io.emit("getOnlineUsers", Object.keys(userSocketMap));
+
+  socket.on("disconnect", () => {
+    console.log("A user disconnected", socket.id);
+    delete userSocketMap[userId];
+    io.emit("getOnlineUsers", Object.keys(userSocketMap));
   });
+});
 
-  io.on("connection", (socket) => {
-    console.log("Socket connected:", socket.id);
-    
-    const userId = socket.handshake?.auth?.userId;
-    if (!userId) {
-      console.log("No userId, disconnecting socket:", socket.id);
-      socket.disconnect(true);
-      return;
-    }
-
-    userSocketMap.set(String(userId), socket.id);
-    io.emit("onlineUsers", Array.from(userSocketMap.keys()));
-
-    socket.on("disconnect", () => {
-      console.log("Socket disconnected:", socket.id);
-      userSocketMap.delete(String(userId));
-      io.emit("onlineUsers", Array.from(userSocketMap.keys()));
-    });
-  });
-
-  return io;
-};
-
-export { io };
+export { io, app, server };
